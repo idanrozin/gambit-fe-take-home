@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon } from 'lucide-react';
 import {
   Badge,
@@ -11,7 +10,6 @@ import {
 } from '@/components/ui';
 import {
   CRITICALITY_LABELS,
-  DEFAULT_SORT,
   ENVIRONMENT_LABELS,
   PROVIDER_LABELS,
   sortResources,
@@ -57,10 +55,15 @@ function SortableHead({
   );
 }
 
-export function ResourcesTable({ resources }: { resources: Resource[] }) {
-  const [sort, setSort] = useState<SortState>(DEFAULT_SORT);
+interface ResourcesTableProps {
+  resources: Resource[];
+  sort: SortState;
+  onSortChange: (sort: SortState) => void;
+}
+
+export function ResourcesTable({ resources, sort, onSortChange }: ResourcesTableProps) {
   const rows = sortResources(resources, sort);
-  const onSort = (key: SortKey) => setSort((current) => toggleSort(current, key));
+  const onSort = (key: SortKey) => onSortChange(toggleSort(sort, key));
 
   return (
     <Table>
