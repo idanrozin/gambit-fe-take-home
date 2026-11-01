@@ -76,7 +76,7 @@
 [data-slot='app-main'] > div {
   margin-top: 1.25rem;
 }
-[data-slot='input'] {
+[data-slot='toolbar'] [data-slot='input'] {
   border-color: transparent;
   border-radius: 9999px;
   background: var(--muted);
@@ -141,4 +141,10 @@
   border: 1px solid var(--border);
   border-radius: 1.25rem;
   box-shadow: var(--paper-shadow);
+}
+
+/* Sheet fields sit on the card colour, so a hairline border vanishes in dark mode. */
+[data-slot='sheet-content'] :is([data-slot='input'], [data-slot='textarea']) {
+  border-color: color-mix(in oklch, var(--foreground) 35%, transparent);
+  background: var(--background);
 }

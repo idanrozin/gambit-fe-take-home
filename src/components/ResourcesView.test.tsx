@@ -8,7 +8,7 @@ const rowNames = () =>
   screen
     .queryAllByRole('row')
     .slice(1)
-    .map((row) => row.querySelector('td:nth-of-type(2)')!.textContent);
+    .map((row) => row.querySelector('[data-slot="resource-name"]')!.textContent);
 
 test('renders the view filtered by the URL, with a count and a way to clear', () => {
   renderWithProviders(<ResourcesView resources={RESOURCES} />, {
