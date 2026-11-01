@@ -34,7 +34,7 @@ function SortableHead({
   sortKey: SortKey;
   sort: SortState;
   onSort: (key: SortKey) => void;
-  align?: 'left' | 'right';
+  align?: 'left' | 'center';
   children: string;
 }) {
   const active = sort.key === sortKey;
@@ -47,7 +47,7 @@ function SortableHead({
         onClick={() => onSort(sortKey)}
         className={cn(
           'inline-flex items-center gap-1 rounded-sm font-medium hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
-          align === 'right' && 'w-full flex-row-reverse',
+          align === 'center' && 'w-full justify-center',
         )}
       >
         {children}
@@ -99,7 +99,7 @@ export function ResourcesTable({
           <SortableHead sortKey="criticality" sort={sort} onSort={onSort}>
             Criticality
           </SortableHead>
-          <SortableHead sortKey="openIssues" sort={sort} onSort={onSort} align="right">
+          <SortableHead sortKey="openIssues" sort={sort} onSort={onSort} align="center">
             Open issues
           </SortableHead>
         </TableRow>
@@ -126,7 +126,7 @@ export function ResourcesTable({
                 {CRITICALITY_LABELS[resource.criticality]}
               </Badge>
             </TableCell>
-            <TableCell className="text-right tabular-nums">{resource.openIssues}</TableCell>
+            <TableCell className="text-center tabular-nums">{resource.openIssues}</TableCell>
           </TableRow>
         ))}
       </TableBody>
