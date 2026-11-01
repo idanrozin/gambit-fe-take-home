@@ -46,7 +46,7 @@ export function ResourcesView({ resources }: ResourcesViewProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-2">
+      <div data-slot="toolbar" className="flex flex-wrap items-center gap-2">
         <div className="relative w-full sm:w-64">
           <SearchIcon
             aria-hidden="true"
@@ -111,7 +111,7 @@ export function ResourcesView({ resources }: ResourcesViewProps) {
           }
         />
       ) : (
-        <div className="rounded-lg border">
+        <div data-slot="resources-panel" className="rounded-lg border">
           <ResourcesTable
             resources={visible}
             sort={sort}
