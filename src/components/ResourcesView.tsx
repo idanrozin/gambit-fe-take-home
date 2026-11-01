@@ -2,24 +2,37 @@ import { useState } from 'react';
 import { SearchIcon } from 'lucide-react';
 import { ResourcesTable } from '@/components/ResourcesTable';
 import { MultiSelectFilter } from '@/components/MultiSelectFilter';
+import { SelectionBar } from '@/components/SelectionBar';
 import { Button, EmptyState, Input } from '@/components/ui';
 import {
   CRITICALITY_LABELS,
   DEFAULT_SORT,
+  NO_SELECTION,
   ENVIRONMENT_LABELS,
   PROVIDER_LABELS,
   filterResources,
+  countHidden,
   hasActiveFilters,
+  setVisibleSelected,
+  toggleSelected,
   type Resource,
   type SortState,
 } from '@/domain';
 import { useResourceFilters } from '@/hooks/useResourceFilters';
 
-/** The resources table with its search and filters, which live in the URL. */
-export function ResourcesView({ resources }: { resources: Resource[] }) {
+interface ResourcesViewProps {
+  resources: Resource[];
+  /** Called with the selected ids; the action stays disabled until a parent supplies it. */
+  onCreateApplication?: (resourceIds: string[]) => void;
+}
+
+/** The resources table with its search and filters (in the URL) and its row selection (local). */
+export function ResourcesView({ resources, onCreateApplication }: ResourcesViewProps) {
   const [filters, setFilters, clearFilters] = useResourceFilters();
   // Held here, not in the table, so it survives the table unmounting on an empty result.
   const [sort, setSort] = useState<SortState>(DEFAULT_SORT);
+  // Keyed by id and kept apart from the filters, so hiding a row never deselects it.
+  const [selected, setSelected] = useState<ReadonlySet<string>>(NO_SELECTION);
   const visible = filterResources(resources, filters);
   const active = hasActiveFilters(filters);
 
@@ -67,6 +80,14 @@ export function ResourcesView({ resources }: { resources: Resource[] }) {
             Clear filters
           </Button>
         )}
+        {selected.size > 0 && (
+          <SelectionBar
+            count={selected.size}
+            hiddenCount={countHidden(selected, visible)}
+            onClear={() => setSelected(NO_SELECTION)}
+            onCreate={onCreateApplication && (() => onCreateApplication([...selected]))}
+          />
+        )}
       </div>
       {visible.length === 0 ? (
         <EmptyState
@@ -80,7 +101,16 @@ export function ResourcesView({ resources }: { resources: Resource[] }) {
         />
       ) : (
         <div className="rounded-lg border">
-          <ResourcesTable resources={visible} sort={sort} onSortChange={setSort} />
+          <ResourcesTable
+            resources={visible}
+            sort={sort}
+            onSortChange={setSort}
+            selected={selected}
+            onToggle={(id) => setSelected((current) => toggleSelected(current, id))}
+            onToggleAll={(checked) =>
+              setSelected((current) => setVisibleSelected(current, visible, checked))
+            }
+          />
         </div>
       )}
     </div>

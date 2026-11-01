@@ -14,7 +14,7 @@ export function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="border-b bg-background">
-        <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3">
+        <div className="flex items-center gap-2 px-4 py-3">
           <Button
             variant="ghost"
             size="icon-sm"
@@ -32,7 +32,7 @@ export function App() {
           </div>
         </div>
       </header>
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col md:flex-row">
+      <div className="flex w-full flex-1 flex-col md:flex-row">
         <aside
           id={SIDEBAR_ID}
           aria-labelledby="applications-heading"
@@ -46,7 +46,7 @@ export function App() {
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">No Applications yet.</p>
         </aside>
-        <main className="min-w-0 flex-1 px-4 py-6">
+        <main className="min-w-0 max-w-7xl flex-1 px-4 py-6">
           <h1 className="text-2xl font-semibold">Resources</h1>
           <div className="mt-4">
             <ResourcesView resources={RESOURCES} />
