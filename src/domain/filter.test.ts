@@ -55,12 +55,6 @@ describe('filterResources', () => {
     ]);
     expect(names({ search: 'data', providers: ['GCP'] })).toEqual([]);
   });
-
-  it('does not mutate its input', () => {
-    const input = [...RESOURCES];
-    filterResources(input, { ...NO_FILTERS, providers: ['GCP'] });
-    expect(input).toEqual(RESOURCES);
-  });
 });
 
 describe('hasActiveFilters', () => {

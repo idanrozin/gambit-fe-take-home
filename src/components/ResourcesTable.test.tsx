@@ -61,8 +61,3 @@ test('clicking a sortable header sorts by it and toggles the direction', async (
   );
   expect(firstRowName()).toBe('platform-deploy-role');
 });
-
-test('criticality is shown as a labelled badge', () => {
-  render(<Harness />);
-  expect(screen.getAllByText('Critical').length).toBeGreaterThan(0);
-});

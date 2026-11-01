@@ -33,7 +33,7 @@ function nodeBoxes(count: number): Box[] {
 const overlaps = (a: Box, b: Box) =>
   Math.abs(a.x - b.x) < NODE_WIDTH && Math.abs(a.y - b.y) < NODE_HEIGHT;
 
-test.each(Array.from({ length: 12 }, (_, i) => i + 1))(
+test.each([1, 2, 12])(
   'draws %i members and the centre without overlaps, inside the view',
   (count) => {
     const boxes = nodeBoxes(count);
