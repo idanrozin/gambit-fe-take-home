@@ -7,3 +7,13 @@ export { Popover, PopoverContent, PopoverTrigger } from './popover';
 export { Skeleton } from './skeleton';
 export { Toaster } from './sonner';
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from './table';

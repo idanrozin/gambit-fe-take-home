@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { MenuIcon } from 'lucide-react';
+import { ResourcesTable } from '@/components/ResourcesTable';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button, Toaster } from '@/components/ui';
+import { RESOURCES } from '@/domain';
 import { cn } from '@/lib/utils';
 
 const SIDEBAR_ID = 'applications-sidebar';
@@ -46,6 +48,9 @@ export function App() {
         </aside>
         <main className="min-w-0 flex-1 px-4 py-6">
           <h1 className="text-2xl font-semibold">Resources</h1>
+          <div className="mt-4 rounded-lg border">
+            <ResourcesTable resources={RESOURCES} />
+          </div>
         </main>
       </div>
       <Toaster />
