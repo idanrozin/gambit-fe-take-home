@@ -27,13 +27,13 @@ export function applicationsReducer(
   }
 }
 
-export function createApplicationId(): string {
+function createApplicationId(): string {
   return crypto.randomUUID();
 }
 
 const sameName = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
 
-export function isNameTaken(name: string, applications: Application[]): boolean {
+function isNameTaken(name: string, applications: Application[]): boolean {
   return applications.some((application) => sameName(application.name, name));
 }
 

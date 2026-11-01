@@ -16,8 +16,8 @@ export const GRAPH_HEIGHT = 500;
 export const NODE_WIDTH = 132;
 export const NODE_HEIGHT = 44;
 // Wide enough that boxes of NODE_WIDTH x NODE_HEIGHT don't touch for up to 12 members.
-export const RING_RADIUS_X = 300;
-export const RING_RADIUS_Y = 190;
+const RING_RADIUS_X = 300;
+const RING_RADIUS_Y = 190;
 
 interface GraphNode {
   /** The resource's id; absent on the Application node. */

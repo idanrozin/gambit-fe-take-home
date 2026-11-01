@@ -1,6 +1,6 @@
 export type Theme = 'light' | 'dark' | 'system';
 
-export const THEME_STORAGE_KEY = 'theme';
+const THEME_STORAGE_KEY = 'theme';
 
 const isTheme = (value: unknown): value is Theme =>
   value === 'light' || value === 'dark' || value === 'system';

@@ -2,7 +2,7 @@ import { CRITICALITIES } from './labels';
 import type { Criticality, Resource } from './types';
 
 export type SortKey = 'name' | 'criticality' | 'openIssues';
-export type SortDirection = 'asc' | 'desc';
+type SortDirection = 'asc' | 'desc';
 export interface SortState {
   key: SortKey;
   direction: SortDirection;
@@ -17,7 +17,7 @@ const CRITICALITY_RANK = Object.fromEntries(
 ) as Record<Criticality, number>;
 
 /** The direction a column starts in when first selected: names read A–Z, risk reads highest first. */
-export function defaultDirection(key: SortKey): SortDirection {
+function defaultDirection(key: SortKey): SortDirection {
   return key === 'name' ? 'asc' : 'desc';
 }
 
