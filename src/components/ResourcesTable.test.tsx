@@ -1,7 +1,13 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { RESOURCES } from '@/domain';
+import { useState } from 'react';
+import { DEFAULT_SORT, RESOURCES, type SortState } from '@/domain';
 import { ResourcesTable } from './ResourcesTable';
+
+function Harness() {
+  const [sort, setSort] = useState<SortState>(DEFAULT_SORT);
+  return <ResourcesTable resources={RESOURCES} sort={sort} onSortChange={setSort} />;
+}
 
 const firstRowName = () => {
   const [firstRow] = screen.getAllByRole('row').slice(1);
@@ -9,7 +15,7 @@ const firstRowName = () => {
 };
 
 test('shows the six columns and one row per resource', () => {
-  render(<ResourcesTable resources={RESOURCES} />);
+  render(<Harness />);
   for (const name of ['Name', 'Type', 'Provider', 'Environment', 'Criticality', 'Open issues']) {
     expect(screen.getByRole('columnheader', { name })).toBeInTheDocument();
   }
@@ -17,7 +23,7 @@ test('shows the six columns and one row per resource', () => {
 });
 
 test('starts with the riskiest resource first and exposes the sort on the header', () => {
-  render(<ResourcesTable resources={RESOURCES} />);
+  render(<Harness />);
   expect(firstRowName()).toBe('payments-db');
   expect(screen.getByRole('columnheader', { name: 'Criticality' })).toHaveAttribute(
     'aria-sort',
@@ -28,7 +34,7 @@ test('starts with the riskiest resource first and exposes the sort on the header
 
 test('clicking a sortable header sorts by it and toggles the direction', async () => {
   const user = userEvent.setup();
-  render(<ResourcesTable resources={RESOURCES} />);
+  render(<Harness />);
 
   await user.click(screen.getByRole('button', { name: 'Name' }));
   expect(screen.getByRole('columnheader', { name: 'Name' })).toHaveAttribute(
@@ -46,6 +52,6 @@ test('clicking a sortable header sorts by it and toggles the direction', async (
 });
 
 test('criticality is shown as a labelled badge', () => {
-  render(<ResourcesTable resources={RESOURCES} />);
+  render(<Harness />);
   expect(screen.getAllByText('Critical').length).toBeGreaterThan(0);
 });

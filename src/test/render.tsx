@@ -1,11 +1,20 @@
 import { render } from '@testing-library/react';
-import { NuqsTestingAdapter } from 'nuqs/adapters/testing';
+import { NuqsTestingAdapter, type OnUrlUpdateFunction } from 'nuqs/adapters/testing';
 import type { ReactElement } from 'react';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
-export function renderWithProviders(ui: ReactElement) {
+interface RenderOptions {
+  /** The initial URL query, e.g. `?provider=AWS`. */
+  searchParams?: string;
+  onUrlUpdate?: OnUrlUpdateFunction;
+}
+
+export function renderWithProviders(
+  ui: ReactElement,
+  { searchParams, onUrlUpdate }: RenderOptions = {},
+) {
   return render(
-    <NuqsTestingAdapter>
+    <NuqsTestingAdapter searchParams={searchParams} onUrlUpdate={onUrlUpdate}>
       <ThemeProvider>{ui}</ThemeProvider>
     </NuqsTestingAdapter>,
   );

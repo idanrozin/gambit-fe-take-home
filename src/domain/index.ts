@@ -1,3 +1,4 @@
+export * from './filter';
 export * from './labels';
 export * from './resources';
 export * from './sort';
