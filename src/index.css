@@ -231,3 +231,12 @@
 
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+@keyframes highlight {
+  from {
+    background-color: color-mix(in oklab, var(--primary) 18%, transparent);
+  }
+  to {
+    background-color: transparent;
+  }
+}

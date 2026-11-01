@@ -4,8 +4,7 @@ interface SelectionBarProps {
   count: number;
   hiddenCount: number;
   onClear: () => void;
-  /** Absent until Applications can be created; the action is then disabled. */
-  onCreate?: () => void;
+  onCreate: () => void;
 }
 
 /** Sits at the end of the filter row, so it adds no height when it appears. */
@@ -22,9 +21,7 @@ export function SelectionBar({ count, hiddenCount, onClear, onCreate }: Selectio
         <Button variant="ghost" onClick={onClear}>
           Clear selection
         </Button>
-        <Button onClick={onCreate} disabled={!onCreate}>
-          Create Application
-        </Button>
+        <Button onClick={onCreate}>Create Application</Button>
       </div>
     </section>
   );

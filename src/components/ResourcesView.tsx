@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SearchIcon } from 'lucide-react';
+import { CreateApplicationSheet } from '@/components/CreateApplicationSheet';
 import { ResourcesTable } from '@/components/ResourcesTable';
 import { MultiSelectFilter } from '@/components/MultiSelectFilter';
 import { SelectionBar } from '@/components/SelectionBar';
@@ -22,17 +23,17 @@ import { useResourceFilters } from '@/hooks/useResourceFilters';
 
 interface ResourcesViewProps {
   resources: Resource[];
-  /** Called with the selected ids; the action stays disabled until a parent supplies it. */
-  onCreateApplication?: (resourceIds: string[]) => void;
 }
 
 /** The resources table with its search and filters (in the URL) and its row selection (local). */
-export function ResourcesView({ resources, onCreateApplication }: ResourcesViewProps) {
+export function ResourcesView({ resources }: ResourcesViewProps) {
   const [filters, setFilters, clearFilters] = useResourceFilters();
   // Held here, not in the table, so it survives the table unmounting on an empty result.
   const [sort, setSort] = useState<SortState>(DEFAULT_SORT);
   // Keyed by id and kept apart from the filters, so hiding a row never deselects it.
   const [selected, setSelected] = useState<ReadonlySet<string>>(NO_SELECTION);
+  // The ids being turned into an Application; `null` while the sheet is closed.
+  const [creating, setCreating] = useState<string[] | null>(null);
   const visible = filterResources(resources, filters);
   const active = hasActiveFilters(filters);
 
@@ -85,7 +86,7 @@ export function ResourcesView({ resources, onCreateApplication }: ResourcesViewP
             count={selected.size}
             hiddenCount={countHidden(selected, visible)}
             onClear={() => setSelected(NO_SELECTION)}
-            onCreate={onCreateApplication && (() => onCreateApplication([...selected]))}
+            onCreate={() => setCreating([...selected])}
           />
         )}
       </div>
@@ -113,6 +114,15 @@ export function ResourcesView({ resources, onCreateApplication }: ResourcesViewP
           />
         </div>
       )}
+      <CreateApplicationSheet
+        initialResourceIds={creating}
+        resources={resources}
+        onClose={() => setCreating(null)}
+        onCreated={() => {
+          setCreating(null);
+          setSelected(NO_SELECTION);
+        }}
+      />
     </div>
   );
 }

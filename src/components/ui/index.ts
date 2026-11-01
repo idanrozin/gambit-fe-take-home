@@ -5,6 +5,7 @@ export { EmptyState } from './empty-state';
 export { Input } from './input';
 export { Popover, PopoverContent, PopoverTrigger } from './popover';
 export { Skeleton } from './skeleton';
+export { Textarea } from './textarea';
 export { Toaster } from './sonner';
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 export {

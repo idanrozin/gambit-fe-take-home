@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import { NuqsTestingAdapter, type OnUrlUpdateFunction } from 'nuqs/adapters/testing';
 import type { ReactElement } from 'react';
+import { ApplicationsProvider } from '@/components/ApplicationsProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 interface RenderOptions {
@@ -15,7 +16,9 @@ export function renderWithProviders(
 ) {
   return render(
     <NuqsTestingAdapter searchParams={searchParams} onUrlUpdate={onUrlUpdate}>
-      <ThemeProvider>{ui}</ThemeProvider>
+      <ThemeProvider>
+        <ApplicationsProvider>{ui}</ApplicationsProvider>
+      </ThemeProvider>
     </NuqsTestingAdapter>,
   );
 }

@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RESOURCES } from '@/domain';
 import { renderWithProviders } from '@/test/render';
@@ -147,16 +147,13 @@ test('clear selection empties it and removes the bar', async () => {
   expect(screen.getByRole('checkbox', { name: `Select ${RESOURCES[0]!.name}` })).not.toBeChecked();
 });
 
-test('create is disabled until a parent handles it, then passes the selected ids', async () => {
+test('create opens the sheet listing the selected resources', async () => {
   const user = userEvent.setup();
-  const onCreate = vi.fn();
-  const { unmount } = renderWithProviders(<ResourcesView resources={RESOURCES} />);
-  await user.click(screen.getByRole('checkbox', { name: `Select ${RESOURCES[0]!.name}` }));
-  expect(screen.getByRole('button', { name: 'Create Application' })).toBeDisabled();
-  unmount();
-
-  renderWithProviders(<ResourcesView resources={RESOURCES} onCreateApplication={onCreate} />);
+  renderWithProviders(<ResourcesView resources={RESOURCES} />);
   await user.click(screen.getByRole('checkbox', { name: `Select ${RESOURCES[0]!.name}` }));
   await user.click(screen.getByRole('button', { name: 'Create Application' }));
-  expect(onCreate).toHaveBeenCalledWith([RESOURCES[0]!.id]);
+  const dialog = screen.getByRole('dialog', { name: 'Create Application' });
+  expect(
+    within(dialog).getByRole('button', { name: `Remove ${RESOURCES[0]!.name}` }),
+  ).toBeVisible();
 });
