@@ -7,3 +7,12 @@ window.ResizeObserver ??= class {
   unobserve() {}
   disconnect() {}
 };
+
+// jsdom has no matchMedia. Default to "light"; tests that need a dark OS replace it.
+window.matchMedia ??= (query: string) =>
+  ({
+    matches: false,
+    media: query,
+    addEventListener() {},
+    removeEventListener() {},
+  }) as unknown as MediaQueryList;

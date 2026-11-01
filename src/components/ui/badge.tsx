@@ -6,10 +6,12 @@ type Variant = Criticality | 'neutral';
 
 // Colour is never the only signal: the label text is always rendered.
 const styles: Record<Variant, string> = {
-  critical: 'bg-red-100 text-red-800 ring-red-300',
-  high: 'bg-orange-100 text-orange-800 ring-orange-300',
-  medium: 'bg-yellow-100 text-yellow-800 ring-yellow-300',
-  low: 'bg-blue-100 text-blue-800 ring-blue-300',
+  critical:
+    'bg-red-100 text-red-800 ring-red-300 dark:bg-red-950 dark:text-red-200 dark:ring-red-800',
+  high: 'bg-orange-100 text-orange-800 ring-orange-300 dark:bg-orange-950 dark:text-orange-200 dark:ring-orange-800',
+  medium:
+    'bg-yellow-100 text-yellow-800 ring-yellow-300 dark:bg-yellow-950 dark:text-yellow-200 dark:ring-yellow-800',
+  low: 'bg-blue-100 text-blue-800 ring-blue-300 dark:bg-blue-950 dark:text-blue-200 dark:ring-blue-800',
   neutral: 'bg-muted text-muted-foreground ring-border',
 };
 
