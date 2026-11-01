@@ -515,7 +515,7 @@
   height: 1.75rem;
   font-size: 0.75rem;
 }
-:root[data-look='sleek'] [data-slot='button'][class*='size-'] {
+:root[data-look='sleek'] [data-slot='button'][data-size^='icon'] {
   width: 1.75rem;
   padding: 0;
 }
@@ -527,8 +527,7 @@
 :root[data-look='sleek'] [data-slot='button'].border-border {
   background: var(--card);
 }
-:root[data-look='sleek']
-  [data-slot='button'][data-slot='button']:not(.border-border):not([class*='ghost']) {
+:root[data-look='sleek'] [data-slot='button'][data-variant='default'] {
   font-weight: 600;
 }
 :root[data-look='sleek'] [data-slot='resources-panel'] {
