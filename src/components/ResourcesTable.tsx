@@ -25,6 +25,9 @@ import {
 import { MembershipHint } from '@/components/MembershipHint';
 import { cn } from '@/lib/utils';
 
+// Below `md` these fold into a line under the name, so the table fits without sideways scrolling.
+const DETAIL_COLUMN = 'hidden md:table-cell';
+
 const ARIA_SORT = { asc: 'ascending', desc: 'descending' } as const;
 
 function SortableHead({
@@ -49,7 +52,7 @@ function SortableHead({
         type="button"
         onClick={() => onSort(sortKey)}
         className={cn(
-          'inline-flex items-center gap-1 rounded-sm font-medium hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+          'inline-flex items-center gap-1 rounded-sm font-medium pointer-coarse:min-h-11 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
           align === 'center' && 'w-full justify-center',
         )}
       >
@@ -101,9 +104,9 @@ export function ResourcesTable({
           <SortableHead sortKey="name" sort={sort} onSort={onSort}>
             Name
           </SortableHead>
-          <TableHead>Type</TableHead>
-          <TableHead>Provider</TableHead>
-          <TableHead>Environment</TableHead>
+          <TableHead className={DETAIL_COLUMN}>Type</TableHead>
+          <TableHead className={DETAIL_COLUMN}>Provider</TableHead>
+          <TableHead className={DETAIL_COLUMN}>Environment</TableHead>
           <SortableHead sortKey="criticality" sort={sort} onSort={onSort}>
             Criticality
           </SortableHead>
@@ -117,6 +120,15 @@ export function ResourcesTable({
           <TableRow
             key={resource.id}
             data-state={selected.has(resource.id) ? 'selected' : undefined}
+            className="cursor-pointer"
+            onClick={(event) => {
+              // Controls toggle or open things themselves, and portalled popover content bubbles
+              // through React but is not inside the row.
+              const target = event.target as Element;
+              if (!event.currentTarget.contains(target)) return;
+              if (target.closest('button, a, input, [role="checkbox"]')) return;
+              onToggle(resource.id);
+            }}
           >
             <TableCell>
               <Checkbox
@@ -126,16 +138,25 @@ export function ResourcesTable({
               />
             </TableCell>
             <TableCell className="font-medium">
-              {resource.name}
+              <span data-slot="resource-name">{resource.name}</span>
               <MembershipHint
                 resourceName={resource.name}
                 applications={applicationsContaining(resource.id, applications)}
                 onOpenApplication={onOpenApplication}
               />
+              <span className="mt-0.5 block text-xs font-normal text-muted-foreground md:hidden">
+                {[
+                  resource.type,
+                  PROVIDER_LABELS[resource.provider],
+                  ENVIRONMENT_LABELS[resource.environment],
+                ].join(' · ')}
+              </span>
             </TableCell>
-            <TableCell>{resource.type}</TableCell>
-            <TableCell>{PROVIDER_LABELS[resource.provider]}</TableCell>
-            <TableCell>{ENVIRONMENT_LABELS[resource.environment]}</TableCell>
+            <TableCell className={DETAIL_COLUMN}>{resource.type}</TableCell>
+            <TableCell className={DETAIL_COLUMN}>{PROVIDER_LABELS[resource.provider]}</TableCell>
+            <TableCell className={DETAIL_COLUMN}>
+              {ENVIRONMENT_LABELS[resource.environment]}
+            </TableCell>
             <TableCell>
               <Badge variant={resource.criticality}>
                 {CRITICALITY_LABELS[resource.criticality]}

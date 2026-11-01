@@ -22,7 +22,8 @@ function Harness() {
 
 const firstRowName = () => {
   const [firstRow] = screen.getAllByRole('row').slice(1);
-  return within(firstRow!).getAllByRole('cell')[1]!.textContent;
+  return within(firstRow!).getAllByRole('cell')[1]!.querySelector('[data-slot="resource-name"]')!
+    .textContent;
 };
 
 test('shows the six columns and one row per resource', () => {
@@ -60,4 +61,34 @@ test('clicking a sortable header sorts by it and toggles the direction', async (
     'descending',
   );
   expect(firstRowName()).toBe('platform-deploy-role');
+});
+
+test('clicking a row toggles it like its checkbox, without double-toggling the checkbox itself', async () => {
+  const user = userEvent.setup();
+  const onToggle = vi.fn();
+  render(
+    <ResourcesTable
+      resources={RESOURCES}
+      sort={DEFAULT_SORT}
+      onSortChange={() => {}}
+      selected={new Set()}
+      onToggle={onToggle}
+      onToggleAll={() => {}}
+      applications={[]}
+      onOpenApplication={() => {}}
+    />,
+  );
+  const [firstRow] = screen.getAllByRole('row').slice(1);
+  const id = RESOURCES.find(
+    (r) =>
+      r.name ===
+      within(firstRow!).getByText(/./, { selector: '[data-slot="resource-name"]' }).textContent,
+  )!.id;
+
+  await user.click(within(firstRow!).getAllByRole('cell')[2]!);
+  expect(onToggle).toHaveBeenCalledExactlyOnceWith(id);
+
+  onToggle.mockClear();
+  await user.click(within(firstRow!).getByRole('checkbox'));
+  expect(onToggle).toHaveBeenCalledExactlyOnceWith(id);
 });
