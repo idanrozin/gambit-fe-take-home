@@ -2,7 +2,7 @@
 
 The decision log behind the build tickets, settled in a planning session on 2026-11-01. Each entry gives the decision and why. Don't reopen one without a new reason; if one changes, update it here.
 
-The brief is a frontend take-home with no time limit enforced on our side (the 1–2 hour box in the brief is ignored by choice). Reviewers grade component structure, TypeScript quality, state modelling, UX and correctness, visual polish, and pragmatic scope.
+The brief is a frontend take-home. Reviewers grade component structure, TypeScript quality, state modelling, UX and correctness, visual polish, and pragmatic scope.
 
 ## Stack and app structure
 
