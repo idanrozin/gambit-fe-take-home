@@ -68,3 +68,11 @@ export function buildApplication(draft: ApplicationDraft, id = createApplication
     resourceIds: draft.resourceIds,
   };
 }
+
+/** The Applications that include `resourceId`, in the order given. */
+export function applicationsContaining(
+  resourceId: string,
+  applications: Application[],
+): Application[] {
+  return applications.filter((application) => application.resourceIds.includes(resourceId));
+}

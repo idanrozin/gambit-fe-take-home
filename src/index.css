@@ -5,6 +5,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* A thin scrollbar with no track and a faint thumb that firms up on hover. */
+@utility scrollbar-subtle {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--muted-foreground) 35%, transparent) transparent;
+  &:hover {
+    scrollbar-color: color-mix(in oklab, var(--muted-foreground) 60%, transparent) transparent;
+  }
+}
+
 @layer base {
   body {
     @apply antialiased bg-background text-foreground;

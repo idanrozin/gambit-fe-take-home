@@ -1,4 +1,5 @@
 import {
+  applicationsContaining,
   applicationsReducer,
   buildApplication,
   createApplicationId,
@@ -103,5 +104,19 @@ describe('validateApplication', () => {
       'name',
       'resourceIds',
     ]);
+  });
+});
+
+describe('applicationsContaining', () => {
+  const a: Application = { id: 'a', name: 'A', resourceIds: ['r1', 'r2'] };
+  const b: Application = { id: 'b', name: 'B', resourceIds: ['r2'] };
+
+  it('returns the Applications that include the resource, in order', () => {
+    expect(applicationsContaining('r2', [a, b])).toEqual([a, b]);
+    expect(applicationsContaining('r1', [a, b])).toEqual([a]);
+  });
+
+  it('returns nothing for a resource in no Application', () => {
+    expect(applicationsContaining('r3', [a, b])).toEqual([]);
   });
 });

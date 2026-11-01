@@ -23,7 +23,7 @@ function nodeBoxes(count: number): Box[] {
   );
   return [...container.querySelectorAll('rect')].map((rect) => {
     const [x, y] = /translate\(([^,\s]+),?\s*([^)\s]+)\)/
-      .exec(rect.parentElement!.getAttribute('transform')!)!
+      .exec(rect.closest('[transform]')!.getAttribute('transform')!)!
       .slice(1);
     // The group sits at the node's centre; the box's corner is half its size away.
     return { x: Number(x) - NODE_WIDTH / 2, y: Number(y) - NODE_HEIGHT / 2 };
