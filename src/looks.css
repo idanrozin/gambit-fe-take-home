@@ -215,7 +215,7 @@
    display type, pill controls and a muted earthy palette.
    ========================================================================= */
 :root[data-look='elegant'] {
-  --radius: 1rem;
+  --radius: 0.75rem;
   --background: oklch(0.935 0.012 255);
   --foreground: oklch(0.24 0.04 262);
   --card: oklch(0.99 0.004 255);
@@ -241,8 +241,8 @@
   --crit-high: oklch(0.6 0.13 62);
   --crit-medium: oklch(0.52 0.08 175);
   --crit-low: oklch(0.5 0.09 260);
-  --look-font: 'Instrument Sans Variable', sans-serif;
-  --look-heading: 'Instrument Serif', serif;
+  --look-font: 'Geist Variable', sans-serif;
+  --look-heading: 'Geist Variable', sans-serif;
   --paper-shadow:
     0 1px 0 oklch(1 0 0 / 80%) inset, 0 1px 2px oklch(0.25 0.05 262 / 8%),
     0 18px 40px -22px oklch(0.25 0.06 262 / 30%);
@@ -277,58 +277,58 @@
   border: 0;
 }
 :root[data-look='elegant'] [data-slot='app-header'] > div {
-  padding: 1.25rem 2rem;
+  padding: 0.75rem 1.25rem;
 }
 :root[data-look='elegant'] [data-slot='wordmark'] {
   font-family: var(--look-heading);
-  font-size: 1.75rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: -0.01em;
 }
 :root[data-look='elegant'] [data-slot='app-body'] {
   align-items: stretch;
-  gap: 1.25rem;
-  padding: 0 1.25rem 1.25rem;
+  gap: 0.75rem;
+  padding: 0 0.75rem 0.75rem;
 }
 :root[data-look='elegant'] [data-slot='app-sidebar'] {
   border: 1px solid var(--border);
-  border-radius: 1.75rem;
+  border-radius: 1.25rem;
   background: var(--card);
   box-shadow: var(--paper-shadow);
-  padding: 1.75rem 1.5rem;
+  padding: 1.25rem 1rem;
 }
 @media (min-width: 48rem) {
   :root[data-look='elegant'] [data-slot='app-sidebar'] {
-    width: 18rem;
+    width: 16rem;
     align-self: flex-start;
     position: sticky;
-    top: 1.25rem;
+    top: 0.75rem;
   }
 }
 :root[data-look='elegant'] [data-slot='app-sidebar'] h2 {
   font-family: var(--look-heading);
-  font-size: 1.75rem;
-  font-weight: 400;
-  letter-spacing: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 :root[data-look='elegant'] [data-slot='app-main'] {
   max-width: none;
   border: 1px solid var(--border);
-  border-radius: 2rem;
+  border-radius: 1.5rem;
   background: var(--card);
   box-shadow: var(--paper-shadow);
-  padding: 2.5rem;
+  padding: 1.5rem;
 }
 :root[data-look='elegant'] [data-slot='app-main'] > h1 {
   font-family: var(--look-heading);
-  font-size: 3.75rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1;
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
 }
 :root[data-look='elegant'] [data-slot='app-main'] > div {
-  margin-top: 1.75rem;
+  margin-top: 1.25rem;
 }
 :root[data-look='elegant'] [data-slot='input'] {
   border-color: transparent;
@@ -354,10 +354,10 @@
   border-bottom: 1px solid var(--border);
 }
 :root[data-look='elegant'] [data-slot='table-head'] {
-  height: 3rem;
-  font-size: 1rem;
-  font-weight: 400;
-  font-style: italic;
+  height: 2.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-style: normal;
   font-family: var(--look-heading);
   color: var(--muted-foreground);
 }
@@ -371,8 +371,9 @@
   background: color-mix(in oklab, var(--primary) 9%, transparent);
 }
 :root[data-look='elegant'] [data-slot='table-cell'] {
-  padding-block: 1.1rem;
+  padding-block: 0.7rem;
   color: var(--muted-foreground);
+  font-size: 0.8125rem;
 }
 :root[data-look='elegant'] [data-slot='table-cell']:nth-child(2) {
   color: var(--foreground);
@@ -382,17 +383,18 @@
   border-radius: 9999px;
 }
 :root[data-look='elegant'] [data-slot='badge'] {
-  padding: 0.2rem 0.75rem;
+  padding: 0.125rem 0.6rem;
   background: color-mix(in oklab, var(--c) 15%, transparent);
   color: color-mix(in oklab, var(--c) 75%, var(--foreground));
   box-shadow: none;
   font-weight: 500;
+  font-size: 0.6875rem;
 }
 :root[data-look='elegant'] [data-slot='sheet-content'] {
   margin: 0.75rem;
   height: calc(100dvh - 1.5rem);
   border: 1px solid var(--border);
-  border-radius: 1.75rem;
+  border-radius: 1.25rem;
   box-shadow: var(--paper-shadow);
 }
 
@@ -401,7 +403,7 @@
    sidebar, a gridded table and mono metadata, with a single lime signal.
    ========================================================================= */
 :root[data-look='sleek'] {
-  --radius: 0.375rem;
+  --radius: 0.5rem;
   --background: oklch(0.975 0.002 250);
   --foreground: oklch(0.2 0.01 250);
   --card: oklch(1 0 0);
@@ -457,15 +459,15 @@
   background: var(--sidebar);
 }
 :root[data-look='sleek'] [data-slot='app-header'] > div {
-  padding: 0 0.75rem;
-  height: 2.5rem;
+  padding: 0 1rem;
+  height: 3rem;
 }
 :root[data-look='sleek'] [data-slot='wordmark'] {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   font-family: var(--look-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   text-transform: lowercase;
 }
@@ -479,13 +481,13 @@
 }
 @media (min-width: 48rem) {
   :root[data-look='sleek'] [data-slot='app-sidebar'] {
-    width: 16rem;
-    padding: 0.75rem;
+    width: 18rem;
+    padding: 1rem;
   }
 }
 :root[data-look='sleek'] [data-slot='app-sidebar'] h2 {
   font-family: var(--look-mono);
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -500,28 +502,28 @@
 }
 :root[data-look='sleek'] [data-slot='app-main'] {
   max-width: none;
-  padding: 1.25rem 1.5rem;
+  padding: 1.75rem 2rem;
 }
 :root[data-look='sleek'] [data-slot='app-main'] > h1 {
-  font-size: 0.9375rem;
+  font-size: 1.375rem;
   font-weight: 600;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
 }
 :root[data-look='sleek'] [data-slot='app-main'] > div {
-  margin-top: 0.875rem;
+  margin-top: 1.25rem;
 }
 :root[data-look='sleek'] [data-slot='input'],
 :root[data-look='sleek'] [data-slot='button'] {
-  height: 1.75rem;
-  font-size: 0.75rem;
+  height: 2.25rem;
+  font-size: 0.8125rem;
 }
 :root[data-look='sleek'] [data-slot='button'][data-size^='icon'] {
-  width: 1.75rem;
+  width: 2.25rem;
   padding: 0;
 }
 :root[data-look='sleek'] [data-slot='popover-trigger'] {
-  height: 1.75rem;
-  font-size: 0.75rem;
+  height: 2.25rem;
+  font-size: 0.8125rem;
   background: var(--card);
 }
 :root[data-look='sleek'] [data-slot='button'].border-border {
@@ -543,11 +545,11 @@
   border-bottom: 1px solid var(--border);
 }
 :root[data-look='sleek'] [data-slot='table-head'] {
-  height: 2rem;
-  padding-inline: 0.75rem;
+  height: 2.5rem;
+  padding-inline: 1rem;
   border-right: 1px solid var(--border);
   font-family: var(--look-mono);
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -570,9 +572,9 @@
   box-shadow: inset 2px 0 0 var(--primary);
 }
 :root[data-look='sleek'] [data-slot='table-cell'] {
-  padding: 0.4rem 0.75rem;
+  padding: 0.7rem 1rem;
   border-right: 1px solid var(--border);
-  font-size: 0.78125rem;
+  font-size: 0.875rem;
 }
 :root[data-look='sleek'] [data-slot='table-cell']:nth-child(2) {
   font-weight: 500;
@@ -580,7 +582,7 @@
 :root[data-look='sleek'] [data-slot='table-cell']:nth-child(3),
 :root[data-look='sleek'] [data-slot='table-cell']:last-child {
   font-family: var(--look-mono);
-  font-size: 0.71875rem;
+  font-size: 0.78125rem;
 }
 :root[data-look='sleek'] [data-slot='table-cell']:nth-child(3) {
   color: var(--muted-foreground);
@@ -591,17 +593,17 @@
 }
 :root[data-look='sleek'] [data-slot='checkbox'] {
   border-radius: 2px;
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 1rem;
+  height: 1rem;
 }
 :root[data-look='sleek'] [data-slot='badge'] {
-  padding: 0.0625rem 0.4rem;
+  padding: 0.125rem 0.5rem;
   border-radius: 2px;
   background: color-mix(in oklab, var(--c) 14%, transparent);
   color: var(--c);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--c) 45%, transparent);
   font-family: var(--look-mono);
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
