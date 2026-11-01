@@ -80,15 +80,15 @@ export function ResourcesView({ resources, onCreateApplication }: ResourcesViewP
             Clear filters
           </Button>
         )}
+        {selected.size > 0 && (
+          <SelectionBar
+            count={selected.size}
+            hiddenCount={countHidden(selected, visible)}
+            onClear={() => setSelected(NO_SELECTION)}
+            onCreate={onCreateApplication && (() => onCreateApplication([...selected]))}
+          />
+        )}
       </div>
-      {selected.size > 0 && (
-        <SelectionBar
-          count={selected.size}
-          hiddenCount={countHidden(selected, visible)}
-          onClear={() => setSelected(NO_SELECTION)}
-          onCreate={onCreateApplication && (() => onCreateApplication([...selected]))}
-        />
-      )}
       {visible.length === 0 ? (
         <EmptyState
           title="No resources match"
