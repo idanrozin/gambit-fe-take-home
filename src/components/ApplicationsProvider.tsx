@@ -5,8 +5,15 @@ const ApplicationsContext = createContext<Application[] | null>(null);
 const ApplicationsDispatchContext = createContext<Dispatch<ApplicationsAction> | null>(null);
 
 /** Applications are the app's only shared state, held in memory: a reload clears them. */
-export function ApplicationsProvider({ children }: { children: ReactNode }) {
-  const [applications, dispatch] = useReducer(applicationsReducer, []);
+export function ApplicationsProvider({
+  children,
+  initialApplications = [],
+}: {
+  children: ReactNode;
+  /** Only for tests, to start with Applications already created. */
+  initialApplications?: Application[];
+}) {
+  const [applications, dispatch] = useReducer(applicationsReducer, initialApplications);
   return (
     <ApplicationsDispatchContext value={dispatch}>
       <ApplicationsContext value={applications}>{children}</ApplicationsContext>
