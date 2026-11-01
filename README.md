@@ -27,4 +27,8 @@ Then open http://localhost:5173.
 
 Vite, React 19, TypeScript (strict), Tailwind v4, shadcn/ui on Radix, Vitest.
 
+## Notes on the brief
+
+- **`openIssues` on `Resource`.** The brief's `Resource` interface has no `openIssues` field, but its sample resource includes `openIssues: 4` and the table must show an open-issues column. I added `openIssues: number` to the type (`src/domain/types.ts`) so the sample data type-checks and the column has a source.
+
 <!-- TODO: what I built, what I'd do next, where I used AI -->
