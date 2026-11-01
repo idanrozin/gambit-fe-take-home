@@ -3,6 +3,7 @@ import { MenuIcon } from 'lucide-react';
 import { ApplicationDrawer } from '@/components/ApplicationDrawer';
 import { ApplicationsSidebar } from '@/components/ApplicationsSidebar';
 import { ResourcesView } from '@/components/ResourcesView';
+import { LookSwitcher } from '@/components/LookSwitcher';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button, Toaster } from '@/components/ui';
 import { RESOURCES } from '@/domain';
@@ -29,7 +30,8 @@ export function App() {
             <MenuIcon />
           </Button>
           <span className="font-semibold">Applications Console</span>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-2">
+            <LookSwitcher />
             <ThemeToggle />
           </div>
         </div>
