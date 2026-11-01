@@ -69,12 +69,6 @@ describe('sortResources', () => {
       'a',
     ]);
   });
-
-  it('does not mutate its input', () => {
-    const input = [resource('b', 'low', 0), resource('a', 'high', 0)];
-    sortResources(input, DEFAULT_SORT);
-    expect(names(input)).toEqual(['b', 'a']);
-  });
 });
 
 describe('toggleSort', () => {

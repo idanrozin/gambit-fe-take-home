@@ -63,22 +63,6 @@ test('a search with no match shows the empty state, and clearing restores every 
   expect(rowNames()).toHaveLength(RESOURCES.length);
 });
 
-test('keeps the chosen sort across an empty result', async () => {
-  const user = userEvent.setup();
-  renderWithProviders(<ResourcesView resources={RESOURCES} />, { searchParams: '?q=zzz' });
-  await user.click(screen.getAllByRole('button', { name: 'Clear filters' })[1]!);
-
-  await user.click(screen.getByRole('button', { name: 'Name' }));
-  await user.type(screen.getByRole('searchbox'), 'zzz');
-  expect(screen.queryByRole('table')).not.toBeInTheDocument();
-  await user.clear(screen.getByRole('searchbox'));
-
-  expect(screen.getByRole('columnheader', { name: 'Name' })).toHaveAttribute(
-    'aria-sort',
-    'ascending',
-  );
-});
-
 test('keeps the chosen sort after a no-match search unmounts the table', async () => {
   const user = userEvent.setup();
   renderWithProviders(<ResourcesView resources={RESOURCES} />);

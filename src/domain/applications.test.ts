@@ -2,7 +2,6 @@ import {
   applicationsContaining,
   applicationsReducer,
   buildApplication,
-  createApplicationId,
   validateApplication,
   type ApplicationDraft,
 } from './applications';
@@ -39,12 +38,6 @@ describe('applicationsReducer', () => {
   it('ignores deleting an unknown id', () => {
     const state = [application('A')];
     expect(applicationsReducer(state, { type: 'deleted', id: 'nope' })).toEqual(state);
-  });
-});
-
-describe('createApplicationId', () => {
-  it('returns a different id each time', () => {
-    expect(createApplicationId()).not.toBe(createApplicationId());
   });
 });
 

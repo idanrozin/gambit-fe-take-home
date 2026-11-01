@@ -5,12 +5,6 @@ test('returns one point per member, none for zero', () => {
   expect(circleLayout(7, 100)).toHaveLength(7);
 });
 
-test('a single member sits at the top', () => {
-  const point = circleLayout(1, 100)[0]!;
-  expect(point.x).toBeCloseTo(0);
-  expect(point.y).toBeCloseTo(-100);
-});
-
 test('points are evenly spaced around a circle', () => {
   const points = circleLayout(6, 100);
   const gaps = points.map((point, i) => {

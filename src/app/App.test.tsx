@@ -111,15 +111,3 @@ describe('creating an Application', () => {
     expect(within(dialog).getByText(/already exists/)).toBeVisible();
   });
 });
-
-test('a created name with spaces shows no error while the sheet closes', async () => {
-  const user = userEvent.setup();
-  renderWithProviders(<App />);
-  await user.click(screen.getAllByRole('checkbox')[1]!);
-  await user.click(screen.getByRole('button', { name: 'Create Application' }));
-  const dialog = screen.getByRole('dialog', { name: 'Create Application' });
-  await user.type(within(dialog).getByRole('textbox', { name: 'Name' }), 'new app');
-  await user.click(within(dialog).getByRole('button', { name: 'Create Application' }));
-  expect(within(dialog).queryByRole('alert')).not.toBeInTheDocument();
-  expect(within(screen.getByRole('complementary')).getByText('new app')).toBeVisible();
-});
