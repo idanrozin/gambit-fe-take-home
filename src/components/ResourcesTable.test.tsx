@@ -14,6 +14,8 @@ function Harness() {
       selected={new Set()}
       onToggle={() => {}}
       onToggleAll={() => {}}
+      applications={[]}
+      onOpenApplication={() => {}}
     />
   );
 }

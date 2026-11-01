@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SearchIcon } from 'lucide-react';
+import { useApplications } from '@/components/ApplicationsProvider';
 import { CreateApplicationSheet } from '@/components/CreateApplicationSheet';
 import { ResourcesTable } from '@/components/ResourcesTable';
 import { MultiSelectFilter } from '@/components/MultiSelectFilter';
@@ -39,6 +40,7 @@ export function ResourcesView({ resources }: ResourcesViewProps) {
   const [openApplicationId, setOpenApplicationId] = useOpenApplicationId();
   // Adjusting state while rendering: drop the draft when an Application opens, so it can't return.
   if (openApplicationId !== null && creating !== null) setCreating(null);
+  const applications = useApplications();
   const visible = filterResources(resources, filters);
   const active = hasActiveFilters(filters);
 
@@ -116,6 +118,8 @@ export function ResourcesView({ resources }: ResourcesViewProps) {
             onSortChange={setSort}
             selected={selected}
             onToggle={(id) => setSelected((current) => toggleSelected(current, id))}
+            applications={applications}
+            onOpenApplication={(id) => void setOpenApplicationId(id)}
             onToggleAll={(checked) =>
               setSelected((current) => setVisibleSelected(current, visible, checked))
             }
