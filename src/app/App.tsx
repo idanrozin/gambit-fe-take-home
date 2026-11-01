@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MenuIcon } from 'lucide-react';
+import { ApplicationsSidebar } from '@/components/ApplicationsSidebar';
 import { ResourcesView } from '@/components/ResourcesView';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button, Toaster } from '@/components/ui';
@@ -44,7 +45,9 @@ export function App() {
           <h2 id="applications-heading" className="text-sm font-semibold">
             Applications
           </h2>
-          <p className="mt-2 text-sm text-muted-foreground">No Applications yet.</p>
+          <div className="mt-3">
+            <ApplicationsSidebar />
+          </div>
         </aside>
         <main className="min-w-0 max-w-7xl flex-1 px-4 py-6">
           <h1 className="text-2xl font-semibold">Resources</h1>

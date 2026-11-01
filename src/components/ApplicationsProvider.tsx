@@ -1,0 +1,33 @@
+import { createContext, use, useMemo, useReducer, type Dispatch, type ReactNode } from 'react';
+import { applicationsReducer, type ApplicationsAction, type Application } from '@/domain';
+
+const ApplicationsContext = createContext<Application[] | null>(null);
+const ApplicationsDispatchContext = createContext<Dispatch<ApplicationsAction> | null>(null);
+
+/** Applications are the app's only shared state, held in memory: a reload clears them. */
+export function ApplicationsProvider({ children }: { children: ReactNode }) {
+  const [applications, dispatch] = useReducer(applicationsReducer, []);
+  return (
+    <ApplicationsDispatchContext value={dispatch}>
+      <ApplicationsContext value={applications}>{children}</ApplicationsContext>
+    </ApplicationsDispatchContext>
+  );
+}
+
+export function useApplications() {
+  const context = use(ApplicationsContext);
+  if (!context) throw new Error('useApplications must be used within ApplicationsProvider');
+  return context;
+}
+
+/** Write side only: components using it don't re-render when the Applications change. */
+export function useApplicationActions() {
+  const dispatch = use(ApplicationsDispatchContext);
+  if (!dispatch) throw new Error('useApplicationActions must be used within ApplicationsProvider');
+  return useMemo(
+    () => ({
+      create: (application: Application) => dispatch({ type: 'created', application }),
+    }),
+    [dispatch],
+  );
+}
