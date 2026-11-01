@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MenuIcon } from 'lucide-react';
+import { ApplicationDrawer } from '@/components/ApplicationDrawer';
 import { ApplicationsSidebar } from '@/components/ApplicationsSidebar';
 import { ResourcesView } from '@/components/ResourcesView';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -56,6 +57,7 @@ export function App() {
           </div>
         </main>
       </div>
+      <ApplicationDrawer resources={RESOURCES} />
       <Toaster />
     </div>
   );

@@ -19,6 +19,7 @@ import {
   type Resource,
   type SortState,
 } from '@/domain';
+import { useOpenApplicationId } from '@/hooks/useOpenApplicationId';
 import { useResourceFilters } from '@/hooks/useResourceFilters';
 
 interface ResourcesViewProps {
@@ -34,6 +35,10 @@ export function ResourcesView({ resources }: ResourcesViewProps) {
   const [selected, setSelected] = useState<ReadonlySet<string>>(NO_SELECTION);
   // The ids being turned into an Application; `null` while the sheet is closed.
   const [creating, setCreating] = useState<string[] | null>(null);
+  // Only one drawer is open at a time: an open Application closes the create sheet.
+  const [openApplicationId, setOpenApplicationId] = useOpenApplicationId();
+  // Adjusting state while rendering: drop the draft when an Application opens, so it can't return.
+  if (openApplicationId !== null && creating !== null) setCreating(null);
   const visible = filterResources(resources, filters);
   const active = hasActiveFilters(filters);
 
@@ -86,7 +91,10 @@ export function ResourcesView({ resources }: ResourcesViewProps) {
             count={selected.size}
             hiddenCount={countHidden(selected, visible)}
             onClear={() => setSelected(NO_SELECTION)}
-            onCreate={() => setCreating([...selected])}
+            onCreate={() => {
+              setCreating([...selected]);
+              void setOpenApplicationId(null, { history: 'replace' });
+            }}
           />
         )}
       </div>
