@@ -8,7 +8,7 @@ const rowNames = () =>
   screen
     .queryAllByRole('row')
     .slice(1)
-    .map((row) => row.querySelector('td')!.textContent);
+    .map((row) => row.querySelector('td:nth-of-type(2)')!.textContent);
 
 test('renders the view filtered by the URL, with a count and a way to clear', () => {
   renderWithProviders(<ResourcesView resources={RESOURCES} />, {
@@ -96,4 +96,67 @@ test('keeps the chosen sort after a no-match search unmounts the table', async (
     'ascending',
   );
   expect(rowNames()).toEqual(sortedByName);
+});
+
+test('selection survives a filter that hides a row, and the bar counts what is hidden', async () => {
+  const user = userEvent.setup();
+  renderWithProviders(<ResourcesView resources={RESOURCES} />);
+  expect(screen.queryByRole('region', { name: 'Selection' })).not.toBeInTheDocument();
+
+  const hidden = RESOURCES.find((r) => !r.name.includes('payments'))!;
+  const shown = RESOURCES.find((r) => r.name.includes('payments'))!;
+  await user.click(screen.getByRole('checkbox', { name: `Select ${hidden.name}` }));
+  await user.click(screen.getByRole('checkbox', { name: `Select ${shown.name}` }));
+  expect(screen.getByText('2 selected')).toBeVisible();
+
+  await user.type(screen.getByRole('searchbox', { name: /search/i }), 'payments');
+  const bar = screen.getByRole('region', { name: 'Selection' });
+  expect(bar).toHaveTextContent('2 selected (1 hidden)');
+  expect(screen.getByRole('checkbox', { name: `Select ${shown.name}` })).toBeChecked();
+
+  await user.clear(screen.getByRole('searchbox', { name: /search/i }));
+  expect(screen.getByRole('checkbox', { name: `Select ${hidden.name}` })).toBeChecked();
+});
+
+test('the header checkbox acts on visible rows only and shows a mixed state', async () => {
+  const user = userEvent.setup();
+  renderWithProviders(<ResourcesView resources={RESOURCES} />, { searchParams: '?provider=AWS' });
+  const aws = RESOURCES.filter((r) => r.provider === 'AWS');
+  const header = () => screen.getByRole('checkbox', { name: 'Select all visible resources' });
+
+  await user.click(screen.getByRole('checkbox', { name: `Select ${aws[0]!.name}` }));
+  expect(header()).toBePartiallyChecked();
+
+  await user.click(header());
+  expect(header()).toBeChecked();
+  expect(screen.getByRole('region', { name: 'Selection' })).toHaveTextContent(
+    `${aws.length} selected`,
+  );
+
+  await user.click(header());
+  expect(header()).not.toBeChecked();
+  expect(screen.queryByRole('region', { name: 'Selection' })).not.toBeInTheDocument();
+});
+
+test('clear selection empties it and removes the bar', async () => {
+  const user = userEvent.setup();
+  renderWithProviders(<ResourcesView resources={RESOURCES} />);
+  await user.click(screen.getByRole('checkbox', { name: `Select ${RESOURCES[0]!.name}` }));
+  await user.click(screen.getByRole('button', { name: 'Clear selection' }));
+  expect(screen.queryByRole('region', { name: 'Selection' })).not.toBeInTheDocument();
+  expect(screen.getByRole('checkbox', { name: `Select ${RESOURCES[0]!.name}` })).not.toBeChecked();
+});
+
+test('create is disabled until a parent handles it, then passes the selected ids', async () => {
+  const user = userEvent.setup();
+  const onCreate = vi.fn();
+  const { unmount } = renderWithProviders(<ResourcesView resources={RESOURCES} />);
+  await user.click(screen.getByRole('checkbox', { name: `Select ${RESOURCES[0]!.name}` }));
+  expect(screen.getByRole('button', { name: 'Create Application' })).toBeDisabled();
+  unmount();
+
+  renderWithProviders(<ResourcesView resources={RESOURCES} onCreateApplication={onCreate} />);
+  await user.click(screen.getByRole('checkbox', { name: `Select ${RESOURCES[0]!.name}` }));
+  await user.click(screen.getByRole('button', { name: 'Create Application' }));
+  expect(onCreate).toHaveBeenCalledWith([RESOURCES[0]!.id]);
 });

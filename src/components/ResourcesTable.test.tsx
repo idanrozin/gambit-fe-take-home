@@ -6,12 +6,21 @@ import { ResourcesTable } from './ResourcesTable';
 
 function Harness() {
   const [sort, setSort] = useState<SortState>(DEFAULT_SORT);
-  return <ResourcesTable resources={RESOURCES} sort={sort} onSortChange={setSort} />;
+  return (
+    <ResourcesTable
+      resources={RESOURCES}
+      sort={sort}
+      onSortChange={setSort}
+      selected={new Set()}
+      onToggle={() => {}}
+      onToggleAll={() => {}}
+    />
+  );
 }
 
 const firstRowName = () => {
   const [firstRow] = screen.getAllByRole('row').slice(1);
-  return within(firstRow!).getAllByRole('cell')[0]!.textContent;
+  return within(firstRow!).getAllByRole('cell')[1]!.textContent;
 };
 
 test('shows the six columns and one row per resource', () => {

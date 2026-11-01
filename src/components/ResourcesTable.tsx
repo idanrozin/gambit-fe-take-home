@@ -1,6 +1,7 @@
 import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon } from 'lucide-react';
 import {
   Badge,
+  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -14,6 +15,7 @@ import {
   PROVIDER_LABELS,
   sortResources,
   toggleSort,
+  visibleSelectionState,
   type Resource,
   type SortKey,
   type SortState,
@@ -59,16 +61,35 @@ interface ResourcesTableProps {
   resources: Resource[];
   sort: SortState;
   onSortChange: (sort: SortState) => void;
+  selected: ReadonlySet<string>;
+  onToggle: (id: string) => void;
+  /** Select or deselect every row in `resources`, the visible ones. */
+  onToggleAll: (checked: boolean) => void;
 }
 
-export function ResourcesTable({ resources, sort, onSortChange }: ResourcesTableProps) {
+export function ResourcesTable({
+  resources,
+  sort,
+  onSortChange,
+  selected,
+  onToggle,
+  onToggleAll,
+}: ResourcesTableProps) {
   const rows = sortResources(resources, sort);
   const onSort = (key: SortKey) => onSortChange(toggleSort(sort, key));
+  const selection = visibleSelectionState(selected, resources);
 
   return (
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead className="w-10">
+            <Checkbox
+              aria-label="Select all visible resources"
+              checked={selection === 'all' ? true : selection === 'some' ? 'indeterminate' : false}
+              onCheckedChange={(checked) => onToggleAll(checked === true)}
+            />
+          </TableHead>
           <SortableHead sortKey="name" sort={sort} onSort={onSort}>
             Name
           </SortableHead>
@@ -85,7 +106,17 @@ export function ResourcesTable({ resources, sort, onSortChange }: ResourcesTable
       </TableHeader>
       <TableBody>
         {rows.map((resource) => (
-          <TableRow key={resource.id}>
+          <TableRow
+            key={resource.id}
+            data-state={selected.has(resource.id) ? 'selected' : undefined}
+          >
+            <TableCell>
+              <Checkbox
+                aria-label={`Select ${resource.name}`}
+                checked={selected.has(resource.id)}
+                onCheckedChange={() => onToggle(resource.id)}
+              />
+            </TableCell>
             <TableCell className="font-medium">{resource.name}</TableCell>
             <TableCell>{resource.type}</TableCell>
             <TableCell>{PROVIDER_LABELS[resource.provider]}</TableCell>
