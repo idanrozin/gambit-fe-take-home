@@ -11,15 +11,18 @@ import {
 } from '@/components/ui';
 import {
   CRITICALITY_LABELS,
+  applicationsContaining,
   ENVIRONMENT_LABELS,
   PROVIDER_LABELS,
   sortResources,
   toggleSort,
   visibleSelectionState,
+  type Application,
   type Resource,
   type SortKey,
   type SortState,
 } from '@/domain';
+import { MembershipHint } from '@/components/MembershipHint';
 import { cn } from '@/lib/utils';
 
 const ARIA_SORT = { asc: 'ascending', desc: 'descending' } as const;
@@ -65,6 +68,9 @@ interface ResourcesTableProps {
   onToggle: (id: string) => void;
   /** Select or deselect every row in `resources`, the visible ones. */
   onToggleAll: (checked: boolean) => void;
+  /** Every Application, to show which ones each resource belongs to. */
+  applications: Application[];
+  onOpenApplication: (id: string) => void;
 }
 
 export function ResourcesTable({
@@ -74,6 +80,8 @@ export function ResourcesTable({
   selected,
   onToggle,
   onToggleAll,
+  applications,
+  onOpenApplication,
 }: ResourcesTableProps) {
   const rows = sortResources(resources, sort);
   const onSort = (key: SortKey) => onSortChange(toggleSort(sort, key));
@@ -117,7 +125,14 @@ export function ResourcesTable({
                 onCheckedChange={() => onToggle(resource.id)}
               />
             </TableCell>
-            <TableCell className="font-medium">{resource.name}</TableCell>
+            <TableCell className="font-medium">
+              {resource.name}
+              <MembershipHint
+                resourceName={resource.name}
+                applications={applicationsContaining(resource.id, applications)}
+                onOpenApplication={onOpenApplication}
+              />
+            </TableCell>
             <TableCell>{resource.type}</TableCell>
             <TableCell>{PROVIDER_LABELS[resource.provider]}</TableCell>
             <TableCell>{ENVIRONMENT_LABELS[resource.environment]}</TableCell>

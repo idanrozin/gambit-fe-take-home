@@ -157,3 +157,45 @@ test('create opens the sheet listing the selected resources', async () => {
     within(dialog).getByRole('button', { name: `Remove ${RESOURCES[0]!.name}` }),
   ).toBeVisible();
 });
+
+describe('membership hint', () => {
+  const [first, second] = RESOURCES;
+  const payments = { id: 'a', name: 'Payments API', resourceIds: [first!.id, second!.id] };
+  const checkout = { id: 'b', name: 'Checkout', resourceIds: [first!.id] };
+  const hintFor = (name: string) => new RegExp(`^${name} is in \\d+ Application`);
+
+  test('shows nothing for a resource in no Application', () => {
+    renderWithProviders(<ResourcesView resources={RESOURCES} />, { applications: [checkout] });
+    expect(screen.queryByRole('button', { name: hintFor(second!.name) })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /is in \d+ Application/ })).toHaveLength(1);
+  });
+
+  test('shows the count and reveals the Application names', async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<ResourcesView resources={RESOURCES} />, {
+      applications: [payments, checkout],
+    });
+    const hint = screen.getByRole('button', { name: `${first!.name} is in 2 Applications` });
+    expect(hint).toHaveTextContent('in 2 apps');
+    expect(
+      screen.getByRole('button', { name: `${second!.name} is in 1 Application` }),
+    ).toHaveTextContent('in 1 app');
+
+    await user.click(hint);
+    expect(screen.getByRole('button', { name: 'Payments API' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Checkout' })).toBeVisible();
+  });
+
+  test('choosing an Application opens its drawer by keyboard', async () => {
+    const user = userEvent.setup();
+    const onUrlUpdate = vi.fn();
+    renderWithProviders(<ResourcesView resources={RESOURCES} />, {
+      applications: [payments],
+      onUrlUpdate,
+    });
+    screen.getByRole('button', { name: hintFor(first!.name) }).focus();
+    await user.keyboard('{Enter}');
+    await user.click(screen.getByRole('button', { name: 'Payments API' }));
+    expect(onUrlUpdate.mock.calls.at(-1)?.[0].queryString).toBe('?app=a');
+  });
+});
