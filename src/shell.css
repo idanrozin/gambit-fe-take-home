@@ -1,0 +1,144 @@
+/* The app's look. Tokens live in index.css; this file re-lays-out the shell and table through
+   the `data-slot` hooks: a cool mist canvas with floating cards, pill controls and soft badges.
+   Unlayered on purpose: it must beat the utility classes in components. */
+
+[data-slot='badge'][data-variant='critical'] {
+  --c: var(--crit-critical);
+}
+[data-slot='badge'][data-variant='high'] {
+  --c: var(--crit-high);
+}
+[data-slot='badge'][data-variant='medium'] {
+  --c: var(--crit-medium);
+}
+[data-slot='badge'][data-variant='low'] {
+  --c: var(--crit-low);
+}
+[data-slot='badge'][data-variant='neutral'] {
+  --c: var(--muted-foreground);
+}
+
+:focus-visible {
+  outline-color: var(--ring);
+}
+[data-slot='app-header'] {
+  background: transparent;
+  border: 0;
+}
+[data-slot='app-header'] > div {
+  padding: 0.75rem 1.25rem;
+}
+[data-slot='wordmark'] {
+  font-size: 1rem;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: -0.01em;
+}
+[data-slot='app-body'] {
+  align-items: stretch;
+  gap: 0.75rem;
+  padding: 0 0.75rem 0.75rem;
+}
+[data-slot='app-sidebar'] {
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: var(--card);
+  box-shadow: var(--paper-shadow);
+  padding: 1.25rem 1rem;
+}
+@media (min-width: 48rem) {
+  [data-slot='app-sidebar'] {
+    width: 16rem;
+    align-self: flex-start;
+    position: sticky;
+    top: 0.75rem;
+  }
+}
+[data-slot='app-sidebar'] h2 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+[data-slot='app-main'] {
+  max-width: none;
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  background: var(--card);
+  box-shadow: var(--paper-shadow);
+  padding: 1.5rem;
+}
+[data-slot='app-main'] > h1 {
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+[data-slot='app-main'] > div {
+  margin-top: 1.25rem;
+}
+[data-slot='input'] {
+  border-color: transparent;
+  border-radius: 9999px;
+  background: var(--muted);
+  box-shadow: none;
+}
+[data-slot='button'] {
+  border-radius: 9999px;
+}
+[data-slot='popover-trigger'] {
+  border-radius: 9999px;
+  background: transparent;
+}
+[data-slot='button'].border-border {
+  background: transparent;
+}
+[data-slot='resources-panel'] {
+  border: 0;
+  border-radius: 0;
+}
+[data-slot='table-header'] tr {
+  border-bottom: 1px solid var(--border);
+}
+[data-slot='table-head'] {
+  height: 2.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--muted-foreground);
+}
+[data-slot='table-row'] {
+  border-bottom: 1px solid var(--border);
+}
+[data-slot='table-body'] [data-slot='table-row']:hover {
+  background: var(--accent);
+}
+[data-slot='table-body'] [data-slot='table-row'][data-state='selected'] {
+  background: color-mix(in oklab, var(--primary) 9%, transparent);
+}
+[data-slot='table-cell'] {
+  padding-block: 0.7rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+}
+[data-slot='table-cell']:nth-child(2) {
+  color: var(--foreground);
+  font-weight: 500;
+}
+[data-slot='checkbox'] {
+  border-radius: 9999px;
+}
+[data-slot='badge'] {
+  padding: 0.125rem 0.6rem;
+  background: color-mix(in oklab, var(--c) 15%, transparent);
+  color: color-mix(in oklab, var(--c) 75%, var(--foreground));
+  box-shadow: none;
+  font-weight: 500;
+  font-size: 0.6875rem;
+}
+[data-slot='sheet-content'] {
+  margin: 0.75rem;
+  height: calc(100dvh - 1.5rem);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  box-shadow: var(--paper-shadow);
+}

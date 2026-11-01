@@ -15,7 +15,7 @@ export function App() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="border-b bg-background">
+      <header data-slot="app-header" className="border-b bg-background">
         <div className="flex items-center gap-2 px-4 py-3">
           <Button
             variant="ghost"
@@ -28,15 +28,18 @@ export function App() {
           >
             <MenuIcon />
           </Button>
-          <span className="font-semibold">Applications Console</span>
+          <span data-slot="wordmark" className="font-semibold">
+            Applications Console
+          </span>
           <div className="ml-auto">
             <ThemeToggle />
           </div>
         </div>
       </header>
-      <div className="flex w-full flex-1 flex-col md:flex-row">
+      <div data-slot="app-body" className="flex w-full flex-1 flex-col md:flex-row">
         <aside
           id={SIDEBAR_ID}
+          data-slot="app-sidebar"
           aria-labelledby="applications-heading"
           className={cn(
             'border-b bg-sidebar p-4 text-sidebar-foreground md:block md:w-64 md:shrink-0 md:border-r md:border-b-0',
@@ -50,7 +53,7 @@ export function App() {
             <ApplicationsSidebar />
           </div>
         </aside>
-        <main className="min-w-0 max-w-7xl flex-1 px-4 py-6">
+        <main data-slot="app-main" className="min-w-0 max-w-7xl flex-1 px-4 py-6">
           <h1 className="text-2xl font-semibold">Resources</h1>
           <div className="mt-4">
             <ResourcesView resources={RESOURCES} />
