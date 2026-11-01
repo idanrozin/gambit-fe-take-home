@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Frontend take-home (1–2 hour time box): a client-only React app to browse cloud resources, group a selection into an Application, and view Applications as a graph. Vite, React 19, TypeScript (strict), Tailwind v4, shadcn/ui on Radix, Vitest. No backend: all state lives in the client.
+a client-only React app to browse cloud resources, group a selection into an Application, and view Applications as a graph. Vite, React 19, TypeScript (strict), Tailwind v4, shadcn/ui on Radix, Vitest. No backend: all state lives in the client.
 
 ## Scope
 
