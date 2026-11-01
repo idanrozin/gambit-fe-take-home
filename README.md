@@ -35,10 +35,10 @@ Vite, React 19, TypeScript (strict), Tailwind v4, shadcn/ui on Radix, Vitest.
 
 One page, no router: an **Applications sidebar** beside the **resources table**, with an Application's graph in a wide **right-side drawer**. One page makes the create-then-see loop immediate: a new Application appears in the sidebar next to the table you built it from.
 
-- **Resources table** with the brief's six columns, sorted riskiest first (criticality, then open issues). Search by name; filter by provider, environment and criticality. Search and filters live in the URL (`nuqs`), so a filtered view survives reload, can be shared, and works with Back.
-- **Selection and creating an Application.** Multi-select rows (selection survives filter changes; the header checkbox acts on visible rows only), review them in a sheet, then name the Application. Validation shows inline: name required, trimmed, max 60 characters and unique ignoring case; at least one resource; description optional, max 200.
+- **Resources table** with the brief's six columns, sorted riskiest first (criticality, then open issues); the name, criticality and open-issues headers re-sort it. Search by name; filter by provider, environment and criticality. Search and filters live in the URL (`nuqs`), so a filtered view survives reload, can be shared, and works with Back.
+- **Selection and creating an Application.** Multi-select rows (selection survives filter changes; the header checkbox acts on visible rows only), review them in a sheet, then name the Application; a toast confirms it. Validation shows inline: name required, trimmed, max 60 characters and unique ignoring case; at least one resource; description optional, max 200.
 - **Applications.** Listed in the sidebar, newest first. Delete asks for confirmation in a dialog that names the Application.
-- **Graph.** Opening an Application shows a central node linked to its member resources (`@visx/network` with our own circle layout and node components). The member list beside it highlights two-way with the nodes; clicking a node shows its details (region, owner, tags and the rest). The open Application is in the URL as `?app=<id>`.
+- **Graph.** Opening an Application shows a central node linked to its member resources (`@visx/network` with our own circle layout and node components). With two or more Applications, a "Switch Application" menu in the drawer jumps between them. The member list beside it highlights two-way with the nodes; clicking a node shows its details (region, owner, tags and the rest). The open Application is in the URL as `?app=<id>`.
 - **Dark mode** with a light / dark / system toggle, saved in `localStorage`.
 
 State modelling:
@@ -49,7 +49,7 @@ State modelling:
 - Display text comes from `Record<Union, string>` label records, so adding a provider, environment or criticality fails to compile until it is labelled.
 - Colour is never the only signal: badges and nodes always show their label, and the graph has a legend.
 
-Decisions and their reasons are in `.scratch/applications-console/DECISIONS.md` while that folder is kept.
+Decisions and their reasons are in [`docs/DECISIONS.md`](docs/DECISIONS.md).
 
 ### Dataset
 
