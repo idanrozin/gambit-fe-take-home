@@ -27,6 +27,18 @@ describe('applicationsReducer', () => {
     expect(next.map((a) => a.name)).toEqual(['New', 'Old']);
     expect(state).toHaveLength(1);
   });
+
+  it('removes only the deleted Application and does not mutate the state', () => {
+    const state = [application('A'), application('B')];
+    const next = applicationsReducer(state, { type: 'deleted', id: 'A' });
+    expect(next.map((a) => a.name)).toEqual(['B']);
+    expect(state).toHaveLength(2);
+  });
+
+  it('ignores deleting an unknown id', () => {
+    const state = [application('A')];
+    expect(applicationsReducer(state, { type: 'deleted', id: 'nope' })).toEqual(state);
+  });
 });
 
 describe('createApplicationId', () => {

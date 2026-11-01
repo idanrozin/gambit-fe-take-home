@@ -11,7 +11,8 @@ export interface ApplicationDraft {
 
 export type ApplicationErrors = Partial<Record<keyof ApplicationDraft, string>>;
 
-export type ApplicationsAction = { type: 'created'; application: Application };
+export type ApplicationsAction =
+  { type: 'created'; application: Application } | { type: 'deleted'; id: string };
 
 /** Newest first, so the sidebar shows the latest Application at the top. */
 export function applicationsReducer(
@@ -21,6 +22,8 @@ export function applicationsReducer(
   switch (action.type) {
     case 'created':
       return [action.application, ...applications];
+    case 'deleted':
+      return applications.filter((application) => application.id !== action.id);
   }
 }
 

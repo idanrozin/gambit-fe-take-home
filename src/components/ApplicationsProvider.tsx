@@ -27,6 +27,7 @@ export function useApplicationActions() {
   return useMemo(
     () => ({
       create: (application: Application) => dispatch({ type: 'created', application }),
+      remove: (id: string) => dispatch({ type: 'deleted', id }),
     }),
     [dispatch],
   );
