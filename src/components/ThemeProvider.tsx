@@ -1,4 +1,12 @@
-import { createContext, use, useEffect, useMemo, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  use,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import { readStoredTheme, writeStoredTheme, type Theme } from '@/lib/theme';
 
 const DARK_QUERY = '(prefers-color-scheme: dark)';
@@ -24,7 +32,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const resolvedTheme = theme === 'system' ? (systemDark ? 'dark' : 'light') : theme;
 
-  useEffect(() => {
+  // Layout effect: the class lands before the browser paints, so the first frame isn't light.
+  useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
     document.documentElement.style.colorScheme = resolvedTheme;
   }, [resolvedTheme]);
